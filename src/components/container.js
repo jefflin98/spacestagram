@@ -3,12 +3,12 @@ import { Context } from "../context/context";
 import Gallery from "./gallery";
 import Loader from "./loader";
 
-const Container = () => {
+const Container = (dates) => {
     const { images, loading, runSearch } = useContext(Context);
     useEffect(() => {
-        runSearch();
+        runSearch(dates);
         // eslint-disable-next-line
-    }, []);
+    }, [dates]);
 
     return (
         <div className="photo-container">

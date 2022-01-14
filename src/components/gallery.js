@@ -17,9 +17,8 @@ const Gallery = props => {
 
             return <Card sectioned key={id} >
                 <Image src={url} key={id} alt={title} width={"100%"} />
-                <p> Rover: {rover} </p>
-                <p> Camera: {camera} </p>
-                <p> Date: {date} </p>
+                <p> {rover} - {camera} </p>
+                <p> {date} </p>
                 <Button id={id} primary={likedImages.has(id)} onClick={() => {
                     if (likedImages.has(id)) {
                         setLikedImages(prev => {
@@ -34,10 +33,12 @@ const Gallery = props => {
                             return cur;
                         });
                     };
-                    console.log(likedImages);
+                    // console.log(likedImages);
                 }}> Like </Button>
             </Card >;
         });
+    } else {
+        images = "No images"
     }
     return <div> {images} </div>;
 };

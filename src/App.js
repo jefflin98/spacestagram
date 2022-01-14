@@ -3,39 +3,10 @@ import './App.css';
 import axios from "axios";
 import React, { useCallback, useState } from 'react';
 import enTranslations from '@shopify/polaris/locales/en.json';
-import { AppProvider, Page, DatePicker, Card } from '@shopify/polaris';
+import { AppProvider, Page, DatePicker, Card, Button } from '@shopify/polaris';
 import { HeartMajor, SearchMinor } from '@shopify/polaris-icons';
 import { apiKey } from "./api/config";
 import Container from './components/container';
-
-function like() {
-
-}
-
-function unlike() {
-
-}
-
-function showResults(photos) {
-  let images = photos;
-
-  if (photos.length > 0) {
-    images = photos.map(photo => {
-      // console.log(photo);
-      let id = photo.id;
-      let rover = photo.rover.name;
-      let camera = photo.camera.full_name;
-      let url = photo.img_src;
-      let a = document.createElement("Image");
-      a.setAttribute("src", url);
-      a.setAttribute("key", id);
-      a.setAttribute("height", 100);
-      a.setAttribute("width", 100);
-      console.log(a);
-      document.getElementById("show_result").appendChild(a);
-    });
-  }
-}
 
 function App() {
   // Page
@@ -47,7 +18,7 @@ function App() {
 
   // DatePicker
   const [{ month, year }, setDate] = useState({ month: 0, year: 2022 });
-  const [selectedDates, setSelectedDates] = useState({ start: new Date('Thu Jan 13 2022 00:00:00 GMT-0500 (EST)'), end: new Date('Thu Jan 13 2022 00:00:00 GMT-0500 (EST)'), });
+  const [selectedDates, setSelectedDates] = useState({ start: new Date('Thu Jan 1 2022 00:00:00 GMT-0500 (EST)'), end: new Date('Thu Jan 1 2022 00:00:00 GMT-0500 (EST)'), });
   const handleMonthChange = useCallback((month, year) => setDate({ month, year }), [],);
 
   return (
@@ -58,11 +29,12 @@ function App() {
 
         Select date
         <Card sectioned>
-          <DatePicker month={month} year={year} onChange={setSelectedDates} onMonthChange={handleMonthChange} selected={selectedDates} />
+          <DatePicker month={month} year={year} onChange={(date) => { setSelectedDates(date); }} onMonthChange={handleMonthChange} selected={selectedDates} />
         </Card>
+        {/* <Button onClick={console.log(selectedDates)}></Button> */}
 
         Results
-        <Container />
+        <Container dates={selectedDates} />
 
       </Page>
     </AppProvider>
