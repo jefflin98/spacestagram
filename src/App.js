@@ -1,16 +1,17 @@
-import logo from './logo.svg';
+
 import './App.css';
-import axios from "axios";
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import enTranslations from '@shopify/polaris/locales/en.json';
-import { AppProvider, Page, DatePicker, Card, Button } from '@shopify/polaris';
-import { HeartMajor, SearchMinor } from '@shopify/polaris-icons';
-import { apiKey } from "./api/config";
+import { AppProvider, Page, DatePicker, Card, DisplayText, Button } from '@shopify/polaris';
+import { HeartMajor } from '@shopify/polaris-icons';
 import Container from './components/container';
 
 function App() {
   // Page
-  const secondaryActions = [{ content: 'Liked Photos', icon: HeartMajor }];
+  const [viewLiked, setViewLiked] = useState(false);
+  const handleViewLiked = setViewLiked(!viewLiked);
+  const primaryAction = { content: viewLiked ? 'All Photos' : 'Liked Photos', icon: HeartMajor };
+  // const secondaryActions = [{ content: viewLiked ? 'All Photos' : 'Liked Photos', icon: HeartMajor, onclick: { handleViewLiked } }];
 
   // Search Textfield
   const [value, setValue] = useState('');
@@ -23,21 +24,20 @@ function App() {
 
   return (
     <AppProvider i18n={enTranslations}>
-      <Page title="Spacestagram" secondaryActions={secondaryActions}>
+      <Page title="Spacestagram" primaryAction={primaryAction} >
         {/* Search for photos */}
         {/* <TextField value={value} onChange={handleChange} autoComplete="off" inputMode="search" type='search' prefix={<Icon source={SearchMinor} color="base" placeholder="Search" />} /> */}
+        <DisplayText size="small"> Pick a date </DisplayText>
 
-        Select date
         <Card sectioned>
           <DatePicker month={month} year={year} onChange={(date) => { setSelectedDates(date); }} onMonthChange={handleMonthChange} selected={selectedDates} />
         </Card>
-        {/* <Button onClick={console.log(selectedDates)}></Button> */}
 
-        Results
-        <Container dates={selectedDates} />
+        <DisplayText size="small"> Result </DisplayText>
 
+        <Container dates={selectedDates} viewLiked={viewLiked} />
       </Page>
-    </AppProvider>
+    </AppProvider >
   );
 }
 

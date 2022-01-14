@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, Card, Button } from '@shopify/polaris';
+import { Image, Card, Button, DisplayText } from '@shopify/polaris';
 
 const Gallery = props => {
     const results = props.data;
@@ -38,7 +38,7 @@ const Gallery = props => {
             </Card >;
         });
     } else {
-        images = "No images"
+        images = <center><DisplayText size="small"> No Image </DisplayText></center>
     }
     return <div> {images} </div>;
 };
