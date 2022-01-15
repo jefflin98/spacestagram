@@ -6,11 +6,10 @@ export const Context = createContext();
 const ContextProvider = props => {
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(true);
-    const runSearch = (dates, viewLiked) => {
-        console.log(viewLiked);
-        let year = dates.dates.start.getFullYear();
-        let month = dates.dates.start.getMonth() + 1;
-        let date = dates.dates.start.getDate();
+    const runSearch = (q) => {
+        let year = q.dates.start.getFullYear();
+        let month = q.dates.start.getMonth() + 1;
+        let date = q.dates.start.getDate();
         axios
             .get(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=${year}-${month}-${date}&api_key=${apiKey}`)
             .then(response => {

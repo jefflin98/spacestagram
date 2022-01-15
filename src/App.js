@@ -9,13 +9,7 @@ import Container from './components/container';
 function App() {
   // Page
   const [viewLiked, setViewLiked] = useState(false);
-  const handleViewLiked = setViewLiked(!viewLiked);
-  const primaryAction = { content: viewLiked ? 'All Photos' : 'Liked Photos', icon: HeartMajor };
-  // const secondaryActions = [{ content: viewLiked ? 'All Photos' : 'Liked Photos', icon: HeartMajor, onclick: { handleViewLiked } }];
-
-  // Search Textfield
-  const [value, setValue] = useState('');
-  const handleChange = useCallback(newValue => setValue(newValue), []);
+  const primaryAction = { content: 'Liked Photos', icon: HeartMajor, onclick: { setViewLiked } };
 
   // DatePicker
   const [{ month, year }, setDate] = useState({ month: 0, year: 2022 });
@@ -24,9 +18,9 @@ function App() {
 
   return (
     <AppProvider i18n={enTranslations}>
-      <Page title="Spacestagram" primaryAction={primaryAction} >
-        {/* Search for photos */}
-        {/* <TextField value={value} onChange={handleChange} autoComplete="off" inputMode="search" type='search' prefix={<Icon source={SearchMinor} color="base" placeholder="Search" />} /> */}
+      <Page title="Spacestagram" primaryAction={{ content: 'Liked Photos', icon: HeartMajor, onclick: () => { setViewLiked(!viewLiked) } }} >
+        <Button onClick={() => { setViewLiked(!viewLiked); }} />
+
         <DisplayText size="small"> Pick a date </DisplayText>
 
         <Card sectioned>

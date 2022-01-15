@@ -2,10 +2,15 @@ import React, { useState } from "react";
 import { Image, Card, Button, DisplayText } from '@shopify/polaris';
 
 const Gallery = props => {
-    const results = props.data;
+    var results = props.data;
+    const viewLiked = props.viewLiked
     const [likedImages, setLikedImages] = useState(new Set());
-
     let images;
+
+    if (viewLiked) {
+        results = Array.from(likedImages);
+    }
+
     if (results.length > 0) {
         images = results.map(image => {
             let id = image.id;
@@ -19,17 +24,17 @@ const Gallery = props => {
                 <Image src={url} key={id} alt={title} width={"100%"} />
                 <p> {rover} - {camera} </p>
                 <p> {date} </p>
-                <Button id={id} primary={likedImages.has(id)} onClick={() => {
-                    if (likedImages.has(id)) {
+                <Button id={id} primary={likedImages.has(image)} onClick={() => {
+                    if (likedImages.has(image)) {
                         setLikedImages(prev => {
                             const cur = new Set(prev);
-                            cur.delete(id);
+                            cur.delete(image);
                             return cur;
                         });
                     } else {
                         setLikedImages(prev => {
                             const cur = new Set(prev);
-                            cur.add(id)
+                            cur.add(image)
                             return cur;
                         });
                     };
