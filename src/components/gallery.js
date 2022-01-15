@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Image, Card, Button, DisplayText } from '@shopify/polaris';
 
 function isLiked(set, target) {
+    // temporary fix: because set use reference comparison
     for (let elem of set) {
         if (elem.id == target.id) {
             return true
@@ -18,8 +19,6 @@ const Gallery = props => {
 
     localStorage.setItem("likedImages", JSON.stringify(Array.from(likedImages)));
 
-    console.log(likedImages);
-
     if (viewLiked) {
         results = Array.from(likedImages);
     }
@@ -33,7 +32,6 @@ const Gallery = props => {
             let title = rover + ', ' + camera
             let date = image.earth_date;
             let liked = isLiked(likedImages, image);
-            // likedImages.has(image);
 
             return <Card sectioned key={id} >
                 <Image src={url} key={id} alt={title} width={"100%"} />

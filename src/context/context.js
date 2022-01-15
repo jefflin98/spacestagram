@@ -13,7 +13,6 @@ const ContextProvider = props => {
         axios
             .get(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=${year}-${month}-${date}&api_key=${apiKey}`)
             .then(response => {
-                // console.log(response.data.photos);
                 setImages(response.data.photos);
                 setLoading(false);
             })
