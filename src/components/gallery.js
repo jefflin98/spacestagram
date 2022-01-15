@@ -1,11 +1,24 @@
 import React, { useState } from "react";
 import { Image, Card, Button, DisplayText } from '@shopify/polaris';
 
+function isLiked(set, target) {
+    for (let elem of set) {
+        if (elem.id == target.id) {
+            return true
+        }
+    }
+    return false
+}
+
 const Gallery = props => {
     var results = props.data;
     const viewLiked = props.viewLiked
-    const [likedImages, setLikedImages] = useState(new Set());
+    var [likedImages, setLikedImages] = useState(new Set(JSON.parse(localStorage.getItem("likedImages"))));
     let images;
+
+    localStorage.setItem("likedImages", JSON.stringify(Array.from(likedImages)));
+
+    console.log(likedImages);
 
     if (viewLiked) {
         results = Array.from(likedImages);
@@ -19,13 +32,15 @@ const Gallery = props => {
             let url = image.img_src;
             let title = rover + ', ' + camera
             let date = image.earth_date;
+            let liked = isLiked(likedImages, image);
+            // likedImages.has(image);
 
             return <Card sectioned key={id} >
                 <Image src={url} key={id} alt={title} width={"100%"} />
-                <p> {rover} - {camera} </p>
+                <DisplayText size="small"> {rover} - {camera} </DisplayText>
                 <p> {date} </p>
-                <Button id={id} primary={likedImages.has(image)} onClick={() => {
-                    if (likedImages.has(image)) {
+                <Button id={id} primary={liked} onClick={() => {
+                    if (liked) {
                         setLikedImages(prev => {
                             const cur = new Set(prev);
                             cur.delete(image);
@@ -38,8 +53,7 @@ const Gallery = props => {
                             return cur;
                         });
                     };
-                    // console.log(likedImages);
-                }}> Like </Button>
+                }}> {liked ? 'Unlike' : 'Like'} </Button>
             </Card >;
         });
     } else {
